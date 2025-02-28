@@ -46,23 +46,24 @@ class Exp:
     def __init__(self, dataset):
         # -----------------  testing config ------------------ #
         self.num_classes = 1
-        self.depth = 1.33
-        self.width = 1.25
+        self.depth = 0.33
+        self.width = 0.375
+        self.scale = (0.5, 1.5)
         if dataset == "mot17" or dataset == "dance":
             self.input_size = (800, 1440)
             self.test_size = (800, 1440)
         elif dataset == "mot20":
-            self.input_size = (896, 1600)
-            self.test_size = (896, 1600)
+            self.input_size = (608, 1088)
+            self.test_size = (608, 1088)
         elif dataset == "dancetrack":
             self.input_size = (896, 1600)
             self.test_size = (896, 1600)
 
-        self.random_size = (18, 32)
+        self.random_size = (12, 26)
         self.max_epoch = 80
         self.print_interval = 20
         self.eval_interval = 5
-        self.test_conf = 0.1
+        self.test_conf = 0.001
         self.nmsthre = 0.7
         self.no_aug_epochs = 10
         self.basic_lr_per_img = 0.001 / 64.0
