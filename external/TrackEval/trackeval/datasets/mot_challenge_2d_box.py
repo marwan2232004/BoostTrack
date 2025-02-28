@@ -182,8 +182,8 @@ class MotChallenge2DBox(_BaseDataset):
     def _get_seq_info(self):
         seq_list = []
         seq_lengths = {}
-        # print(self.config)
-
+        print(self.config)
+        
         if self.config["SEQ_INFO"]:
             seq_list = list(self.config["SEQ_INFO"].keys())
             seq_lengths = self.config["SEQ_INFO"]
