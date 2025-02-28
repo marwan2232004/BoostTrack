@@ -124,13 +124,10 @@ class EmbeddingComputer:
             results[:, 1] = results[:, 1].clip(0, h)
             results[:, 2] = results[:, 2].clip(0, w)
             results[:, 3] = results[:, 3].clip(0, h)
-            print("Results shape ", results.shape)
-            print("Results ", results)
+            
             crops = []
             for p in results:
                 crop = img[p[1] : p[3], p[0] : p[2]]
-                print("Crop shape ", crop.shape)
-                print("Crop ", crop)
                 crop = cv2.cvtColor(crop, cv2.COLOR_BGR2RGB)
                 crop = cv2.resize(crop, self.crop_size, interpolation=cv2.INTER_LINEAR).astype(np.float32)
                 if self.normalize:
