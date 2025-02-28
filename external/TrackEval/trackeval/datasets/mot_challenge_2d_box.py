@@ -50,16 +50,18 @@ class MotChallenge2DBox(_BaseDataset):
         """Initialise dataset, checking that all required files are present"""
         super().__init__()
         # print(type(config))
-        # print("CONFIG:")
-        # print(config)
+        print("CONFIG:")
+        print(config)
         # exit(0)
         # Fill non-given config values with defaults
         self.config = utils.init_config(
             config, self.get_default_dataset_config(), self.get_name()
         )
-
+        
         self.benchmark = self.config["BENCHMARK"]
         gt_set = self.config["BENCHMARK"] + "-" + self.config["SPLIT_TO_EVAL"]
+        print("GT SET:")
+        print(gt_set)
         self.gt_set = gt_set
         if not self.config["SKIP_SPLIT_FOL"]:
             split_fol = gt_set
@@ -183,7 +185,7 @@ class MotChallenge2DBox(_BaseDataset):
         seq_list = []
         seq_lengths = {}
         print(self.config)
-        
+
         if self.config["SEQ_INFO"]:
             seq_list = list(self.config["SEQ_INFO"].keys())
             seq_lengths = self.config["SEQ_INFO"]
