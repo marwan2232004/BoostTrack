@@ -164,7 +164,7 @@ class BoostTrack(object):
         Returns the a similar array, where the last column is the object ID.
         NOTE: The number of objects returned may differ from the number of detections provided.
         """
-        if dets is None or dets.size == 0:
+        if dets is None :
             return np.empty((0, 5))
         if not isinstance(dets, np.ndarray):
             dets = dets.cpu().detach().numpy()
