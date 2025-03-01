@@ -44,7 +44,7 @@ def get_main_args():
         args.result_folder = os.path.join(args.result_folder, "MOT20-val")
 
     if args.test_dataset:
-        args.result_folder.replace("-val", "-test")
+        args.result_folder  =  args.result_folder.replace("-val", "-test")
         print(f"Testing on test dataset, results will be saved to {args.result_folder}")
     return args
 
