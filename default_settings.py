@@ -10,7 +10,7 @@ def get_detector_path_and_im_size(args) -> Tuple[str, Tuple[int, int]]:
         size = (800, 1440)
     elif args.dataset == "mot20":
         if args.test_dataset:
-            detector_path = "external/weights/bytetrack_x_mot20.tar"
+            detector_path = "external/weights/yolox_tiny.pth.tar"
             size = (896, 1600)
         else:
             # Just use the mot17 test model as the ablation model for 20
