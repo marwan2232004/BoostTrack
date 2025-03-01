@@ -79,8 +79,8 @@ class BoostTrackSettings:
         'lambda_iou': 0.5,  # 0 to turn off
         'lambda_mhd': 0.25,  # 0 to turn off
         'lambda_shape': 0.25,  # 0 to turn off
-        'use_dlo_boost': True,  # False to turn off
-        'use_duo_boost': True,  # False to turn off
+        'use_dlo_boost': False,  # False to turn off
+        'use_duo_boost': False,  # False to turn off
         'dlo_boost_coef': 0.6,  # Irrelevant if use_dlo_boost == False
         's_sim_corr': False  # Which shape similarity function should be used (True == corrected version)
     }

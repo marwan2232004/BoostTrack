@@ -181,7 +181,7 @@ class BoostTrack(object):
             for trk in self.trackers:
                 trk.camera_update(transform)
 
-
+        
 
         # get predicted locations from existing trackers.
         trks = np.zeros((len(self.trackers), 5))
@@ -201,7 +201,7 @@ class BoostTrack(object):
         remain_inds = dets[:, 4] >= self.det_thresh
         dets = dets[remain_inds]
         scores = dets[:, 4] # save the scores for the detections
-        
+
 
         # Generate embeddings
         dets_embs = np.ones((dets.shape[0], 1))
