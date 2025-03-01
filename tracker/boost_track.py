@@ -244,7 +244,7 @@ class BoostTrack(object):
         for i in unmatched_dets:
             if dets[i, 4] >= self.det_thresh:
                 self.trackers.append(KalmanBoxTracker(dets[i, :], emb=dets_embs[i]))
-                scores_map[self.trackers[-1].id] = dets[i, 4]
+                scores_map[self.trackers[-1].id] = org_score[i]
 
         ret = []
         i = len(self.trackers)
