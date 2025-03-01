@@ -181,6 +181,8 @@ class BoostTrack(object):
             for trk in self.trackers:
                 trk.camera_update(transform)
 
+
+
         # get predicted locations from existing trackers.
         trks = np.zeros((len(self.trackers), 5))
         confs = np.zeros((len(self.trackers), 1))
@@ -199,15 +201,7 @@ class BoostTrack(object):
         remain_inds = dets[:, 4] >= self.det_thresh
         dets = dets[remain_inds]
         scores = dets[:, 4] # save the scores for the detections
-        scores_map = {}
-        for i in range(len(dets)):
-            key = {
-                "x1": dets[i, 0],
-                "y1": dets[i, 1],
-                "x2": dets[i, 2],
-                "y2": dets[i, 3]
-            }
-            scores_map[str(key)] = scores[i]
+        
 
         # Generate embeddings
         dets_embs = np.ones((dets.shape[0], 1))
@@ -239,27 +233,26 @@ class BoostTrack(object):
         af = 0.95
         dets_alpha = af + (1 - af) * (1 - trust)
 
+        scores_map  = {}
+
         for m in matched:
+            if self.trackers[m[1]].id not in scores_map:
+                scores_map[self.trackers[m[1]].id] = scores[m[0]]
             self.trackers[m[1]].update(dets[m[0], :], scores[m[0]])
             self.trackers[m[1]].update_emb(dets_embs[m[0]], alpha=dets_alpha[m[0]])
 
         for i in unmatched_dets:
             if dets[i, 4] >= self.det_thresh:
                 self.trackers.append(KalmanBoxTracker(dets[i, :], emb=dets_embs[i]))
+                scores_map[self.trackers[-1].id] = dets[i, 4]
 
         ret = []
         i = len(self.trackers)
         for trk in reversed(self.trackers):
             d = trk.get_state()[0]
-            key = {
-                "x1": d[0],
-                "y1": d[1],
-                "x2": d[2],
-                "y2": d[3]
-            }
             if (trk.time_since_update < 1) and (trk.hit_streak >= self.min_hits or self.frame_count <= self.min_hits):
                 # +1 as MOT benchmark requires positive
-                ret.append(np.concatenate((d, [trk.id + 1], [scores_map[str(key)]])).reshape(1, -1))
+                ret.append(np.concatenate((d, [trk.id + 1], [scores_map[trk.id]])).reshape(1, -1))
             i -= 1
             # remove dead tracklet
             if trk.time_since_update > self.max_age:
