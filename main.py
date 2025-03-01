@@ -45,6 +45,7 @@ def get_main_args():
 
     if args.test_dataset:
         args.result_folder.replace("-val", "-test")
+        print(f"Testing on test dataset, results will be saved to {args.result_folder}")
     return args
 
 
