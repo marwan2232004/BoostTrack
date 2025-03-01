@@ -198,7 +198,16 @@ class BoostTrack(object):
 
         remain_inds = dets[:, 4] >= self.det_thresh
         dets = dets[remain_inds]
-        scores = dets[:, 4]
+        scores = dets[:, 4] # save the scores for the detections
+        scores_map = {}
+        for i in range(len(dets)):
+            key = {
+                "x1": dets[i, 0],
+                "y1": dets[i, 1],
+                "x2": dets[i, 2],
+                "y2": dets[i, 3]
+            }
+            scores_map[str(key)] = scores[i]
 
         # Generate embeddings
         dets_embs = np.ones((dets.shape[0], 1))
@@ -242,9 +251,15 @@ class BoostTrack(object):
         i = len(self.trackers)
         for trk in reversed(self.trackers):
             d = trk.get_state()[0]
+            key = {
+                "x1": d[0],
+                "y1": d[1],
+                "x2": d[2],
+                "y2": d[3]
+            }
             if (trk.time_since_update < 1) and (trk.hit_streak >= self.min_hits or self.frame_count <= self.min_hits):
                 # +1 as MOT benchmark requires positive
-                ret.append(np.concatenate((d, [trk.id + 1], [trk.get_confidence()])).reshape(1, -1))
+                ret.append(np.concatenate((d, [trk.id + 1], [scores_map[str(key)]])).reshape(1, -1))
             i -= 1
             # remove dead tracklet
             if trk.time_since_update > self.max_age:
