@@ -8,8 +8,6 @@ import cv2
 DATA_PATH = "data/MOT20"
 OUT_PATH = os.path.join(DATA_PATH, "annotations")
 SPLITS = [
-    "train_half",
-    "val_half",
     "train",
     "test",
 ]  # --> split training data to train_half and val_half.
