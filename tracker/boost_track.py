@@ -175,7 +175,7 @@ class BoostTrack(object):
         scale = min(img_tensor.shape[2] / img_numpy.shape[0], img_tensor.shape[3] / img_numpy.shape[1])
         dets = deepcopy(dets)
         dets[:, :4] /= scale
-
+        print("Original Confidence", dets[:, 4])
         if self.ecc is not None:
             transform = self.ecc(img_numpy, self.frame_count, tag)
             for trk in self.trackers:
@@ -201,7 +201,7 @@ class BoostTrack(object):
         remain_inds = dets[:, 4] >= self.det_thresh
         dets = dets[remain_inds]
         scores = dets[:, 4] # save the scores for the detections
-
+        print("Updated Confidence", dets[:, 4])
 
         # Generate embeddings
         dets_embs = np.ones((dets.shape[0], 1))
