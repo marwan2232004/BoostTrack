@@ -27,7 +27,7 @@ def LinearInterpolation(input_, interval):
     return output_
 
 
-def GradientBoostingSmooth(input_):
+def GradientBoostingSmooth(input_,frame_scores):
     output_ = list()
     ids = set(input_[:, 1])
     for id_ in ids:
@@ -53,14 +53,14 @@ def GradientBoostingSmooth(input_):
         hh = hh.reshape(-1, 1)
 
         output_.extend([
-            [t[i, 0], id_, xx[i][0], yy[i][0], ww[i][0], hh[i][0], 1, -1, -1 , -1] for i in range(len(t))
+            [t[i, 0], id_, xx[i][0], yy[i][0], ww[i][0], hh[i][0], frame_scores[t[i, 0]][id_], -1, -1 , -1] for i in range(len(t))
         ])
 
     return output_
 
 # GBI
-def GBInterpolation(path_in, path_out, interval):
+def GBInterpolation(path_in, path_out, interval,frame_scores):
     input_ = np.loadtxt(path_in, delimiter=',')
     li = input_[np.lexsort([input_[:, 0], input_[:, 1]])]  # 按ID和帧排序
-    gbi = GradientBoostingSmooth(li)
+    gbi = GradientBoostingSmooth(li,frame_scores)
     np.savetxt(path_out, gbi, fmt='%d,%d,%.2f,%.2f,%.2f,%.2f,%.2f,%d,%d,%d')

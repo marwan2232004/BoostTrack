@@ -73,6 +73,7 @@ def main():
     frame_count = 0
     total_time = 0
     scores_map = {}
+    frame_scores = {}
     # See __getitem__ of dataset.MOTDataset
     for (img, np_img), label, info, idx in loader:
         # Frame info
@@ -106,7 +107,7 @@ def main():
         # Nx5 of (x1, y1, x2, y2, ID)
         targets  = tracker.update(pred, img, np_img[0].numpy(), tag, scores_map)
         tlwhs, ids, confs = utils.filter_targets(targets, GeneralSettings['aspect_ratio_thresh'], GeneralSettings['min_box_area'])
-
+        frame_scores[frame_id] = scores_map.copy()
         total_time += time.time() - start_time
         frame_count += 1
 
@@ -149,7 +150,8 @@ def main():
             GBInterpolation(
                 path_in=in_path,
                 path_out=out_path2,
-                interval=interval
+                interval=interval,
+                frame_scores=frame_scores,
             )
         print(f"Gradient boosting interpolation post-processing applied, saved to {post_folder_gbi}.")
 

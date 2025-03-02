@@ -241,7 +241,7 @@ class BoostTrack(object):
             if dets[i, 4] >= self.det_thresh:
                 self.trackers.append(KalmanBoxTracker(dets[i, :], emb=dets_embs[i]))
                 scores_map[self.trackers[-1].id] = org_score[i]
-                print("New Tracker Added with Confidence", org_score[i] , "ID", self.trackers[-1].id)
+                print("New Tracker Added with Confidence", scores_map[self.trackers[-1].id] , "ID", self.trackers[-1].id)
 
         ret = []
         i = len(self.trackers)
