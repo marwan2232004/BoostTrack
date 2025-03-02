@@ -201,7 +201,6 @@ class BoostTrack(object):
         dets = dets[remain_inds]
         scores = dets[:, 4] # save the scores for the detections
         org_score = deepcopy(scores)
-        print("Updated Confidence", scores)
 
         # Generate embeddings
         dets_embs = np.ones((dets.shape[0], 1))
@@ -255,7 +254,7 @@ class BoostTrack(object):
             i -= 1
             # remove dead tracklet
             if trk.time_since_update > self.max_age:
-                scores_map.pop(trk.id)
+                scores_map.pop(self.trackers[i].id)
                 self.trackers.pop(i)
 
         if len(ret) > 0:
