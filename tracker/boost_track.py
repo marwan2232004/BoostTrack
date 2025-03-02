@@ -200,7 +200,6 @@ class BoostTrack(object):
         remain_inds = dets[:, 4] >= self.det_thresh
         dets = dets[remain_inds]
         scores = dets[:, 4] # save the scores for the detections
-        org_score = deepcopy(scores)
 
         # Generate embeddings
         dets_embs = np.ones((dets.shape[0], 1))
@@ -234,13 +233,15 @@ class BoostTrack(object):
 
 
         for m in matched:
+            scores_map[self.trackers[m[1]].id] = scores[m[0]]
+            print("Tracker Updated with Confidence", scores_map[self.trackers[m[1]].id], "ID", self.trackers[m[1]].id)
             self.trackers[m[1]].update(dets[m[0], :], scores[m[0]])
             self.trackers[m[1]].update_emb(dets_embs[m[0]], alpha=dets_alpha[m[0]])
 
         for i in unmatched_dets:
             if dets[i, 4] >= self.det_thresh:
                 self.trackers.append(KalmanBoxTracker(dets[i, :], emb=dets_embs[i]))
-                scores_map[self.trackers[-1].id] = org_score[i]
+                scores_map[self.trackers[-1].id] = scores[i]
                 print("New Tracker Added with Confidence", scores_map[self.trackers[-1].id] , "ID", self.trackers[-1].id)
 
         ret = []

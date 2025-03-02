@@ -53,7 +53,7 @@ def GradientBoostingSmooth(input_,frame_scores):
         hh = hh.reshape(-1, 1)
 
         output_.extend([
-            [t[i, 0], id_, xx[i][0], yy[i][0], ww[i][0], hh[i][0], frame_scores[t[i, 0]][id_], -1, -1 , -1] for i in range(len(t))
+            [t[i, 0], id_, xx[i][0], yy[i][0], ww[i][0], hh[i][0], frame_scores[t[i, 0]][id_ - 1], -1, -1 , -1] for i in range(len(t))
         ])
 
     return output_
