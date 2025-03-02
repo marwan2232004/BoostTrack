@@ -156,7 +156,7 @@ class BoostTrack(object):
         else:
             self.ecc = None
 
-    def update(self, dets, img_tensor, img_numpy, tag):
+    def update(self, dets, img_tensor, img_numpy, tag, scores_map=None):
         """
         Params:
           dets - a numpy array of detections in the format [[x1,y1,x2,y2,score],[x1,y1,x2,y2,score],...]
@@ -232,7 +232,6 @@ class BoostTrack(object):
         af = 0.95
         dets_alpha = af + (1 - af) * (1 - trust)
 
-        scores_map  = {}
 
         for m in matched:
             self.trackers[m[1]].update(dets[m[0], :], scores[m[0]])

@@ -72,6 +72,7 @@ def main():
     results = {}
     frame_count = 0
     total_time = 0
+    scores_map = {}
     # See __getitem__ of dataset.MOTDataset
     for (img, np_img), label, info, idx in loader:
         # Frame info
@@ -103,7 +104,7 @@ def main():
         if pred is None:
             continue
         # Nx5 of (x1, y1, x2, y2, ID)
-        targets = tracker.update(pred, img, np_img[0].numpy(), tag)
+        targets  = tracker.update(pred, img, np_img[0].numpy(), tag, scores_map)
         tlwhs, ids, confs = utils.filter_targets(targets, GeneralSettings['aspect_ratio_thresh'], GeneralSettings['min_box_area'])
 
         total_time += time.time() - start_time
