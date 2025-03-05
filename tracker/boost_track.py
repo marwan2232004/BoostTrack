@@ -234,7 +234,7 @@ class BoostTrack(object):
 
         for m in matched:
             scores_map[self.trackers[m[1]].id] = scores[m[0]]
-            print("Tracker Updated with Confidence", scores_map[self.trackers[m[1]].id], "ID", self.trackers[m[1]].id)
+            # print("Tracker Updated with Confidence", scores_map[self.trackers[m[1]].id], "ID", self.trackers[m[1]].id)
             self.trackers[m[1]].update(dets[m[0], :], scores[m[0]])
             self.trackers[m[1]].update_emb(dets_embs[m[0]], alpha=dets_alpha[m[0]])
 
@@ -242,7 +242,7 @@ class BoostTrack(object):
             if dets[i, 4] >= self.det_thresh:
                 self.trackers.append(KalmanBoxTracker(dets[i, :], emb=dets_embs[i]))
                 scores_map[self.trackers[-1].id] = scores[i]
-                print("New Tracker Added with Confidence", scores_map[self.trackers[-1].id] , "ID", self.trackers[-1].id)
+                # print("New Tracker Added with Confidence", scores_map[self.trackers[-1].id] , "ID", self.trackers[-1].id)
 
         ret = []
         i = len(self.trackers)
@@ -255,7 +255,7 @@ class BoostTrack(object):
             # remove dead tracklet
             if trk.time_since_update > self.max_age:
                 scores_map.pop(self.trackers[i].id)
-                print("Tracker Removed with ID", self.trackers[i].id)
+                # print("Tracker Removed with ID", self.trackers[i].id)
                 self.trackers.pop(i)
 
         if len(ret) > 0:
