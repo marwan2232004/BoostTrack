@@ -25,7 +25,7 @@ def get_detector_path_and_im_size(args) -> Tuple[str, Tuple[int, int]]:
 class GeneralSettings:
     values: Dict[str, Union[float, bool, int, str]] = {
         'max_age': 30,
-        'min_hits': 3,
+        'min_hits': 2,
         'det_thresh': 0.5,
         'iou_threshold': 0.3,
         'use_ecc': True,
@@ -62,9 +62,9 @@ class GeneralSettings:
     @staticmethod
     def max_age(seq_name: str) -> int:
         try:
-            return max(int(GeneralSettings.video_to_frame_rate[seq_name] * 2), 60)
+            return max(int(GeneralSettings.video_to_frame_rate[seq_name] * 2), 120)
         except:
-            return 60
+            return 120
 
     @staticmethod
     def __class_getitem__(key: str):
@@ -77,8 +77,8 @@ class GeneralSettings:
 class BoostTrackSettings:
     values: Dict[str, Union[float, bool, int, str]] = {
         'lambda_iou': 0.6,  # 0 to turn off
-        'lambda_mhd': 0.3,  # 0 to turn off
-        'lambda_shape': 0.3,  # 0 to turn off
+        'lambda_mhd': 0.5,  # 0 to turn off
+        'lambda_shape': 0.5,  # 0 to turn off
         'use_dlo_boost': True,  # False to turn off
         'use_duo_boost': True,  # False to turn off
         'dlo_boost_coef': 0.7,  # Irrelevant if use_dlo_boost == False
@@ -86,7 +86,7 @@ class BoostTrackSettings:
     }
     dataset_specific_settings: Dict[str, Dict[str, Union[float, bool, int]]] = {
         "mot17": {"dlo_boost_coef": 0.65},
-        "mot20": {"dlo_boost_coef": 0.5},
+        "mot20": {"dlo_boost_coef": 0.6},
     }
 
     @staticmethod
