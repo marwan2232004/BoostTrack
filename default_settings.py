@@ -62,9 +62,9 @@ class GeneralSettings:
     @staticmethod
     def max_age(seq_name: str) -> int:
         try:
-            return max(int(GeneralSettings.video_to_frame_rate[seq_name] * 2), 60)
+            return max(int(GeneralSettings.video_to_frame_rate[seq_name] * 2), 30)
         except:
-            return 60
+            return 30
 
     @staticmethod
     def __class_getitem__(key: str):
@@ -76,12 +76,12 @@ class GeneralSettings:
 
 class BoostTrackSettings:
     values: Dict[str, Union[float, bool, int, str]] = {
-        'lambda_iou': 0.6,  # 0 to turn off
-        'lambda_mhd': 0.3,  # 0 to turn off
-        'lambda_shape': 0.3,  # 0 to turn off
+        'lambda_iou': 0.5,  # 0 to turn off
+        'lambda_mhd': 0.25,  # 0 to turn off
+        'lambda_shape': 0.25,  # 0 to turn off
         'use_dlo_boost': True,  # False to turn off
         'use_duo_boost': True,  # False to turn off
-        'dlo_boost_coef': 0.7,  # Irrelevant if use_dlo_boost == False
+        'dlo_boost_coef': 0.6,  # Irrelevant if use_dlo_boost == False
         's_sim_corr': False  # Which shape similarity function should be used (True == corrected version)
     }
     dataset_specific_settings: Dict[str, Dict[str, Union[float, bool, int]]] = {
