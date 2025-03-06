@@ -47,7 +47,7 @@ class Exp:
         # -----------------  testing config ------------------ #
         self.num_classes = 1
         self.depth = 0.33
-        self.width = 0.375
+        self.width = 0.50
         self.scale = (0.5, 1.5)
         if dataset == "mot17" or dataset == "dance":
             self.input_size = (800, 1440)
