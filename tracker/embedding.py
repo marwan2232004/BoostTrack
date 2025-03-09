@@ -169,7 +169,7 @@ class EmbeddingComputer:
             else:
                 return self._get_general_model()
         elif self.dataset == "mot20":
-            # return self._get_general_model()
+            return self._get_general_model()
             if self.test_dataset:
                 path = "external/weights/mot20_sbs_S50.pth"
             else:
@@ -192,14 +192,14 @@ class EmbeddingComputer:
         evaluate on as well. Instead we use a different model for
         validation.
         """
-        model = torchreid.models.build_model(name="osnet_ain_x1_0", num_classes=2510, loss="softmax", pretrained=True)
-        # sd = torch.load("external/weights/osnet_ain_ms_d_c.pth.tar")["state_dict"]
-        # new_state_dict = OrderedDict()
-        # for k, v in sd.items():
-        #     name = k[7:]  # remove `module.`
-        #     new_state_dict[name] = v
-        # # load params
-        # model.load_state_dict(new_state_dict)
+        model = torchreid.models.build_model(name="osnet_ain_x1_0", num_classes=2510, loss="softmax", pretrained=False)
+        sd = torch.load("external/weights/osnet_ain_ms_d_c.pth.tar")["state_dict"]
+        new_state_dict = OrderedDict()
+        for k, v in sd.items():
+            name = k[7:]  # remove `module.`
+            new_state_dict[name] = v
+        # load params
+        model.load_state_dict(new_state_dict)
         model.eval()
         model.cuda()
         self.model = model
