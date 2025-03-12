@@ -37,6 +37,13 @@ def get_main_args():
         help="do not run post-processing.",
     )
 
+    parser.add_argument(
+        "--detection_model_path",
+        type=str,
+        default="external/weights/best_ckpt.pth.tar",
+        help="path to the detection model checkpoint",    
+    )
+
     args = parser.parse_args()
     if args.dataset == "mot17":
         args.result_folder = os.path.join(args.result_folder, "MOT17-val")
@@ -64,6 +71,7 @@ def main():
     BoostTrackPlusPlusSettings.values['use_vt'] = not args.btpp_arg_no_vt
 
     detector_path, size = get_detector_path_and_im_size(args)
+    detector_path = args.detection_model_path
     print(f"Detector: {detector_path}, size: {size}")
     det = detector.Detector("yolox", detector_path, args.dataset)
     loader = dataset.get_mot_loader(args.dataset, args.test_dataset, size=size)
