@@ -73,7 +73,7 @@ def main():
     detector_path, size = get_detector_path_and_im_size(args)
     detector_path = args.detection_model_path
     print(f"Detector: {detector_path}, size: {size}")
-    det = detector.Detector("yolox", detector_path, args.dataset)
+    det = detector.Detector("yolox", detector_path, args.dataset, size)
     loader = dataset.get_mot_loader(args.dataset, args.test_dataset, size=size)
 
     tracker = None
