@@ -62,7 +62,7 @@ class GeneralSettings:
     @staticmethod
     def max_age(seq_name: str) -> int:
         try:
-            return max(int(GeneralSettings.video_to_frame_rate[seq_name] * 2), 500)
+            return max(int(GeneralSettings.video_to_frame_rate[seq_name] * 2), 30)
         except:
             return 30
 
