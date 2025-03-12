@@ -19,6 +19,7 @@ def get_detector_path_and_im_size(args) -> Tuple[str, Tuple[int, int]]:
             size = (608, 1088)
     else:
         raise RuntimeError("Need to update paths for detector for extra datasets.")
+    return "" , (800, 1440)
     return detector_path, size
 
 
