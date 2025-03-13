@@ -26,8 +26,8 @@ class GeneralSettings:
     values: Dict[str, Union[float, bool, int, str]] = {
         'max_age': 30,
         'min_hits': 3,
-        'det_thresh': 0.01,
-        'iou_threshold': 0.01,
+        'det_thresh': 0.1,
+        'iou_threshold': 0.1,
         'use_ecc': True,
         'use_embedding': True,
         'dataset': 'mot20',
@@ -38,7 +38,7 @@ class GeneralSettings:
 
     dataset_specific_settings: Dict[str, Dict[str, Union[float, bool, int]]] = {
         "mot17": {"det_thresh": 0.6},
-        "mot20": {"det_thresh": 0.1},
+        "mot20": {"det_thresh": 0.4},
     }
 
     video_to_frame_rate = {"MOT17-13-FRCNN": 25, "MOT17-11-FRCNN": 30,
