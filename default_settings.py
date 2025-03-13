@@ -38,7 +38,7 @@ class GeneralSettings:
 
     dataset_specific_settings: Dict[str, Dict[str, Union[float, bool, int]]] = {
         "mot17": {"det_thresh": 0.6},
-        "mot20": {"det_thresh": 0.4},
+        "mot20": {"det_thresh": 0.1},
     }
 
     video_to_frame_rate = {"MOT17-13-FRCNN": 25, "MOT17-11-FRCNN": 30,
