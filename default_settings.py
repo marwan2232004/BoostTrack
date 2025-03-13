@@ -26,8 +26,8 @@ class GeneralSettings:
     values: Dict[str, Union[float, bool, int, str]] = {
         'max_age': 30,
         'min_hits': 3,
-        'det_thresh': 0.1,
-        'iou_threshold': 0.1,
+        'det_thresh': 0.01,
+        'iou_threshold': 0.01,
         'use_ecc': True,
         'use_embedding': True,
         'dataset': 'mot20',
