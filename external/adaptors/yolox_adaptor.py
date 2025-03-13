@@ -57,7 +57,7 @@ class Exp:
         self.eval_interval = 5
         self.test_conf = 0.001
         # Increase to get more overlapping boxes
-        self.nmsthre = 0.8
+        self.nmsthre = 0.50
         self.no_aug_epochs = 10
         self.basic_lr_per_img = 0.001 / 64.0
         self.warmup_epochs = 1
