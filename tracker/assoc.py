@@ -148,7 +148,7 @@ def linear_assignment(detections: np.ndarray, trackers: np.ndarray,
     # filter out matched with low IOU
     matches = []
     for m in matched_indices:
-        valid_match = iou_matrix[m[0], m[1]] >= threshold  or (False if emb_cost is None else (iou_matrix[m[0], m[1]] >= threshold / 2 and emb_cost[m[0], m[1]] >= 0.60))
+        valid_match = iou_matrix[m[0], m[1]] >= threshold  or (False if emb_cost is None else (iou_matrix[m[0], m[1]] >= threshold / 2 and emb_cost[m[0], m[1]] >= 0.50))
         if valid_match:
             matches.append(m.reshape(1, 2))
         else:
