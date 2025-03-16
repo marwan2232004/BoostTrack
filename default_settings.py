@@ -32,7 +32,7 @@ class GeneralSettings:
         'use_embedding': True,
         'dataset': 'mot20',
         'test_dataset': False,
-        'min_box_area': 5,
+        'min_box_area': 10,
         'aspect_ratio_thresh': 1.6
     }
 
