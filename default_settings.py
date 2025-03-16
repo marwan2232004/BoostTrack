@@ -32,7 +32,7 @@ class GeneralSettings:
         'use_embedding': True,
         'dataset': 'mot20',
         'test_dataset': False,
-        'min_box_area': 10,
+        'min_box_area': 5,
         'aspect_ratio_thresh': 1.6
     }
 
@@ -76,7 +76,7 @@ class GeneralSettings:
 
 class BoostTrackSettings:
     values: Dict[str, Union[float, bool, int, str]] = {
-        'lambda_iou': 0.65,  # 0 to turn off
+        'lambda_iou': 0.6,  # 0 to turn off
         'lambda_mhd': 0.2,  # 0 to turn off
         'lambda_shape': 0.25,  # 0 to turn off
         'use_dlo_boost': True,  # False to turn off
