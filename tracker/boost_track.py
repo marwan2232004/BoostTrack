@@ -255,7 +255,7 @@ class BoostTrack(object):
             # remove dead tracklet
             if trk.time_since_update > self.max_age:
                 scores_map.pop(self.trackers[i].id)
-                print("Tracker Removed with ID", self.trackers[i].id)
+                # print("Tracker Removed with ID", self.trackers[i].id)
                 self.trackers.pop(i)
 
         if len(ret) > 0:
