@@ -62,7 +62,7 @@ class GeneralSettings:
     @staticmethod
     def max_age(seq_name: str) -> int:
         try:
-            return max(int(GeneralSettings.video_to_frame_rate[seq_name] * 2), 30)
+            return max(int(GeneralSettings.video_to_frame_rate[seq_name] * 2), 500)
         except:
             return 30
 
@@ -78,7 +78,7 @@ class BoostTrackSettings:
     values: Dict[str, Union[float, bool, int, str]] = {
         'lambda_iou': 0.6,  # 0 to turn off
         'lambda_mhd': 0.2,  # 0 to turn off
-        'lambda_shape': 0.25,  # 0 to turn off
+        'lambda_shape': 0.2,  # 0 to turn off
         'use_dlo_boost': True,  # False to turn off
         'use_duo_boost': True,  # False to turn off
         'dlo_boost_coef': 0.6,  # Irrelevant if use_dlo_boost == False
