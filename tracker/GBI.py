@@ -38,7 +38,7 @@ def GradientBoostingSmooth(input_,frame_scores):
         w = tracks[:, 4].reshape(-1, 1)
         h = tracks[:, 5].reshape(-1, 1)
 
-        regr = GradientBoostingRegressor(n_estimators=115,learning_rate=0.065,min_samples_split=8)#learning_rate=0.065,min_samples_split=6,n_estimators=71
+        regr = GradientBoostingRegressor(n_estimators=115,learning_rate=0.065,min_samples_split=10)#learning_rate=0.065,min_samples_split=6,n_estimators=71
         regr.fit(t, x.ravel())
         xx = regr.predict(t)
         xx = xx.reshape(-1, 1)
