@@ -15,7 +15,7 @@ def get_detector_path_and_im_size(args) -> Tuple[str, Tuple[int, int]]:
         else:
             # Just use the mot17 test model as the ablation model for 20
             # using our pretrained model for mot20
-            detector_path = "external/weights/yolox_tiny.pth.tar"
+            detector_path = "external/weights/best_ckpt.pth.tar"
             size = (608, 1088)
     else:
         raise RuntimeError("Need to update paths for detector for extra datasets.")
@@ -77,7 +77,7 @@ class GeneralSettings:
 class BoostTrackSettings:
     values: Dict[str, Union[float, bool, int, str]] = {
         'lambda_iou': 0.6,  # 0 to turn off
-        'lambda_mhd': 0.2,  # 0 to turn off
+        'lambda_mhd': 0.15,  # 0 to turn off
         'lambda_shape': 0.25,  # 0 to turn off
         'use_dlo_boost': True,  # False to turn off
         'use_duo_boost': True,  # False to turn off
