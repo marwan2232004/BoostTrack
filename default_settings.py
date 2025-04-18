@@ -27,7 +27,7 @@ class GeneralSettings:
         'min_hits': 3,
         'det_thresh': 0.5,
         'iou_threshold': 0.3,
-        'use_ecc': True,
+        'use_ecc': False,
         'use_embedding': True,
         'dataset': 'mot17',
         'test_dataset': False,
