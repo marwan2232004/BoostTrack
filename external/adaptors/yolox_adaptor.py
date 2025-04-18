@@ -46,18 +46,18 @@ class Exp:
     def __init__(self, dataset , size):
         # -----------------  testing config ------------------ #
         self.num_classes = 1
-        self.depth = 0.33
-        self.width = 0.50
+        self.depth = 1.33
+        self.width = 1.25
         self.scale = (0.5, 1.5)
         self.input_size = size
         self.test_size = size
-        self.random_size = (12, 26)
+        self.random_size = (18, 32)
         self.max_epoch = 80
         self.print_interval = 20
         self.eval_interval = 5
-        self.test_conf = 0.001
+        self.test_conf = 0.1
         # Increase to get more overlapping boxes
-        self.nmsthre = 0.50
+        self.nmsthre = 0.7
         self.no_aug_epochs = 10
         self.basic_lr_per_img = 0.001 / 64.0
         self.warmup_epochs = 1
