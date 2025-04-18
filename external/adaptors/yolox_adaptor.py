@@ -70,6 +70,7 @@ class Exp:
                     m.momentum = 0.03
 
         if getattr(self, "model", None) is None:
+            print("Creating YOLOX model with depth: {}, width: {}".format(self.depth, self.width))
             in_channels = [256, 512, 1024]
             backbone = YOLOPAFPN(self.depth, self.width, in_channels=in_channels)
             head = YOLOXHead(self.num_classes, self.width, in_channels=in_channels)
