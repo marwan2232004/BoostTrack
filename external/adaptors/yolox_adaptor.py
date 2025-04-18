@@ -31,7 +31,7 @@ class PostModel(nn.Module):
 def get_model(path, dataset, size):
     exp = Exp(dataset , size)
     model = exp.get_model()
-    ckpt = torch.load(path,weights_only=True)
+    ckpt = torch.load(path)
     model.load_state_dict(ckpt["model"])
     with warnings.catch_warnings():
         model = fuse_model(model)
