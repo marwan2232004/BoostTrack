@@ -31,8 +31,9 @@ class PostModel(nn.Module):
 def get_model(path, dataset, size):
     exp = Exp(dataset , size)
     model = exp.get_model()
+    print("Loading weights from ", path)
     ckpt = torch.load(path,weights_only=True)
-    model.load_state_dict(ckpt["model"])
+    model.load_state_dict(ckpt["model"], strict=False)
     with warnings.catch_warnings():
         model = fuse_model(model)
     model = model.half()
