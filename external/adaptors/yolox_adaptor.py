@@ -31,9 +31,8 @@ class PostModel(nn.Module):
 def get_model(path, dataset, size):
     exp = Exp(dataset , size)
     model = exp.get_model()
-    print("Loading weights from ", path)
     ckpt = torch.load(path,weights_only=True)
-    model.load_state_dict(ckpt["model"], strict=False)
+    model.load_state_dict(ckpt["model"])
     with warnings.catch_warnings():
         model = fuse_model(model)
     model = model.half()
@@ -47,18 +46,18 @@ class Exp:
     def __init__(self, dataset , size):
         # -----------------  testing config ------------------ #
         self.num_classes = 1
-        self.depth = 1.33
-        self.width = 1.25
+        self.depth = 0.33
+        self.width = 0.50
         self.scale = (0.5, 1.5)
         self.input_size = size
         self.test_size = size
-        self.random_size = (18, 32)
+        self.random_size = (12, 26)
         self.max_epoch = 80
         self.print_interval = 20
         self.eval_interval = 5
-        self.test_conf = 0.1
+        self.test_conf = 0.001
         # Increase to get more overlapping boxes
-        self.nmsthre = 0.7
+        self.nmsthre = 0.50
         self.no_aug_epochs = 10
         self.basic_lr_per_img = 0.001 / 64.0
         self.warmup_epochs = 1
@@ -71,7 +70,6 @@ class Exp:
                     m.momentum = 0.03
 
         if getattr(self, "model", None) is None:
-            print("Creating YOLOX model with depth: {}, width: {}".format(self.depth, self.width))
             in_channels = [256, 512, 1024]
             backbone = YOLOPAFPN(self.depth, self.width, in_channels=in_channels)
             head = YOLOXHead(self.num_classes, self.width, in_channels=in_channels)

@@ -10,12 +10,13 @@ def get_detector_path_and_im_size(args) -> Tuple[str, Tuple[int, int]]:
         size = (800, 1440)
     elif args.dataset == "mot20":
         if args.test_dataset:
-            detector_path = "external/weights/bytetrack_x_mot20.tar"
-            size = (896, 1600)
+            detector_path = "external/weights/best_ckpt.pth.tar"
+            size = (608, 1088)
         else:
             # Just use the mot17 test model as the ablation model for 20
-            detector_path = "external/weights/bytetrack_x_mot17.pth.tar"
-            size = (800, 1440)
+            # using our pretrained model for mot20
+            detector_path = "external/weights/best_ckpt.pth.tar"
+            size = (608, 1088)
     else:
         raise RuntimeError("Need to update paths for detector for extra datasets.")
     return detector_path, size
@@ -25,11 +26,11 @@ class GeneralSettings:
     values: Dict[str, Union[float, bool, int, str]] = {
         'max_age': 30,
         'min_hits': 3,
-        'det_thresh': 0.5,
-        'iou_threshold': 0.3,
+        'det_thresh': 0.1,
+        'iou_threshold': 0.1,
         'use_ecc': True,
         'use_embedding': True,
-        'dataset': 'mot17',
+        'dataset': 'mot20',
         'test_dataset': False,
         'min_box_area': 10,
         'aspect_ratio_thresh': 1.6
@@ -61,7 +62,7 @@ class GeneralSettings:
     @staticmethod
     def max_age(seq_name: str) -> int:
         try:
-            return max(int(GeneralSettings.video_to_frame_rate[seq_name] * 2), 30)
+            return max(int(GeneralSettings.video_to_frame_rate[seq_name] * 2), 100)
         except:
             return 30
 
@@ -75,12 +76,12 @@ class GeneralSettings:
 
 class BoostTrackSettings:
     values: Dict[str, Union[float, bool, int, str]] = {
-        'lambda_iou': 0.5,  # 0 to turn off
-        'lambda_mhd': 0.25,  # 0 to turn off
-        'lambda_shape': 0.25,  # 0 to turn off
+        'lambda_iou': 0.6,  # 0 to turn off
+        'lambda_mhd': 0.2,  # 0 to turn off
+        'lambda_shape': 0.3,  # 0 to turn off
         'use_dlo_boost': True,  # False to turn off
         'use_duo_boost': True,  # False to turn off
-        'dlo_boost_coef': 0.6,  # Irrelevant if use_dlo_boost == False
+        'dlo_boost_coef': 0.5,  # Irrelevant if use_dlo_boost == False
         's_sim_corr': False  # Which shape similarity function should be used (True == corrected version)
     }
     dataset_specific_settings: Dict[str, Dict[str, Union[float, bool, int]]] = {
@@ -106,3 +107,4 @@ class BoostTrackPlusPlusSettings:
     @staticmethod
     def __class_getitem__(key: str):
         return BoostTrackPlusPlusSettings.values[key]
+
