@@ -151,10 +151,10 @@ class BoostTrack(object):
         else:
             self.embedder = None
 
-        if GeneralSettings['use_ecc']:
-            self.ecc = ECC(scale=350, video_name=video_name, use_cache=True)
-        else:
-            self.ecc = None
+        # if GeneralSettings['use_ecc']:
+        #     self.ecc = ECC(scale=350, video_name=video_name, use_cache=True)
+        # else:
+        self.ecc = None
 
     def update(self, dets, img_tensor, img_numpy, tag, scores_map=None):
         """
