@@ -57,8 +57,7 @@ class Detector(torch.nn.Module):
             output = self.model(batch)
             
             if self.model_type == "yolov26" and isinstance(output, tuple):
-                # Import the NMS utility from Ultralytics
-                from ultralytics.utils.ops import non_max_suppression
+                from ultralytics.utils.nms import non_max_suppression
                 
                 # Extract the prediction tensor if it's a tuple
                 if isinstance(output, tuple):
