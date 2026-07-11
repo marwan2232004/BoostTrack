@@ -57,7 +57,17 @@ class Detector(torch.nn.Module):
             output = self.model(batch)
             
             if self.model_type == "yolov26" and isinstance(output, tuple):
-                output = output[0]
+                if isinstance(output, tuple):
+                    output = output[0]
+                
+                # Strip the batch dimension: (1, 300, 6) -> (300, 6)
+                if output.ndim == 3:
+                    output = output.squeeze(0)
+                
+                # Ultralytics raw tensors are sometimes transposed to (6, 300).
+                # If rows are fewer than columns, transpose it so detections are the rows.
+                if len(output.shape) == 2 and output.shape[0] < output.shape[1]:
+                    output = output.transpose(0, 1)
 
         if output is not None:
             self.cache[tag] = output.cpu().detach()
