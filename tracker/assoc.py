@@ -78,7 +78,9 @@ def soft_biou_batch(bboxes1, bboxes2):
     # Author : Vukasin Stanojevic
     # Email  : vukasin.stanojevic@pmf.edu.rs
     """
-
+    if len(bboxes1) == 0 or len(bboxes2) == 0:
+        return np.zeros((len(bboxes1), len(bboxes2)))
+    
     bboxes2 = np.expand_dims(bboxes2, 0)
     bboxes1 = np.expand_dims(bboxes1, 1)
     k1 = 0.25
