@@ -53,6 +53,7 @@ class Detector(torch.nn.Module):
 
         with torch.no_grad():
             batch = batch.half()
+            self.model.to(batch.device)
             output = self.model(batch)
             
             if self.model_type == "yolov26" and isinstance(output, tuple):
