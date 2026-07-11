@@ -57,17 +57,23 @@ class Detector(torch.nn.Module):
             output = self.model(batch)
             
             if self.model_type == "yolov26" and isinstance(output, tuple):
+                # Import the NMS utility from Ultralytics
+                from ultralytics.utils.ops import non_max_suppression
+                
+                # Extract the prediction tensor if it's a tuple
                 if isinstance(output, tuple):
-                    output = output[0]
+                    preds = output[0]
+                else:
+                    preds = output
                 
-                # Strip the batch dimension: (1, 300, 6) -> (300, 6)
-                if output.ndim == 3:
-                    output = output.squeeze(0)
-                
-                # Ultralytics raw tensors are sometimes transposed to (6, 300).
-                # If rows are fewer than columns, transpose it so detections are the rows.
-                if len(output.shape) == 2 and output.shape[0] < output.shape[1]:
-                    output = output.transpose(0, 1)
+                # Apply NMS. This automatically filters boxes and converts 
+                # coordinates from (cx, cy, w, h) to (x1, y1, x2, y2).
+                # NMS returns a list of tensors (one per batch item). We take [0].
+                output = non_max_suppression(
+                    preds, 
+                    conf_thres=0.1,  # You can adjust this detection threshold
+                    iou_thres=0.7    # You can adjust this NMS overlap threshold
+                )[0]
 
         if output is not None:
             self.cache[tag] = output.cpu().detach()
