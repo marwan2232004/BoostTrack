@@ -44,6 +44,13 @@ def get_main_args():
         help="path to the detection model checkpoint",    
     )
 
+    parser.add_argument(
+        "--model_name",
+        type=str,
+        default="yolox",
+        help="model name",    
+    )
+
     args = parser.parse_args()
     if args.dataset == "mot17":
         args.result_folder = os.path.join(args.result_folder, "MOT17-val")
@@ -73,7 +80,7 @@ def main():
     detector_path, size = get_detector_path_and_im_size(args)
     detector_path = args.detection_model_path
     print(f"Detector: {detector_path}, size: {size}")
-    det = detector.Detector("yolox", detector_path, args.dataset, size)
+    det = detector.Detector(args.model_name, detector_path, args.dataset, size)
     loader = dataset.get_mot_loader(args.dataset, args.test_dataset, size=size)
 
     tracker = None

@@ -1,4 +1,3 @@
-"""Generic detector."""
 import os
 import pickle
 
@@ -6,9 +5,8 @@ import torch
 
 from external.adaptors import yolox_adaptor
 
-
 class Detector(torch.nn.Module):
-    K_MODELS = {"yolox"}
+    K_MODELS = {"yolox", "yolov26"}
 
     def __init__(self, model_type, path, dataset, size):
         super().__init__()
@@ -36,16 +34,30 @@ class Detector(torch.nn.Module):
         """Wait until needed."""
         if self.model_type == "yolox":
             self.model = yolox_adaptor.get_model(self.path, self.dataset, self.size)
+            
+        elif self.model_type == "yolov26":
+            try:
+                from ultralytics import YOLO
+            except ImportError:
+                raise ImportError("The 'ultralytics' package is required to load YOLOv26 .pt files. Run: pip install ultralytics")
+            
+            full_model = YOLO(self.path)
+            self.model = full_model.model.eval().half()
 
     def forward(self, batch, tag=None):
         if tag in self.cache:
             return self.cache[tag]
+        
         if self.model is None:
             self.initialize_model()
 
         with torch.no_grad():
             batch = batch.half()
             output = self.model(batch)
+            
+            if self.model_type == "yolov26" and isinstance(output, tuple):
+                output = output[0]
+
         if output is not None:
             self.cache[tag] = output.cpu().detach()
 
