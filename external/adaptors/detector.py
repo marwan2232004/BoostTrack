@@ -4,7 +4,8 @@ import pickle
 import torch
 
 from external.adaptors import yolox_adaptor
-
+from ultralytics.utils.nms import non_max_suppression
+from ultralytics import YOLO
 class Detector(torch.nn.Module):
     K_MODELS = {"yolox", "yolov26"}
 
@@ -36,11 +37,6 @@ class Detector(torch.nn.Module):
             self.model = yolox_adaptor.get_model(self.path, self.dataset, self.size)
             
         elif self.model_type == "yolov26":
-            try:
-                from ultralytics import YOLO
-            except ImportError:
-                raise ImportError("The 'ultralytics' package is required to load YOLOv26 .pt files. Run: pip install ultralytics")
-            
             full_model = YOLO(self.path)
             self.model = full_model.model.eval().half()
 
@@ -57,22 +53,27 @@ class Detector(torch.nn.Module):
             output = self.model(batch)
             
             if self.model_type == "yolov26" and isinstance(output, tuple):
-                from ultralytics.utils.nms import non_max_suppression
+                
                 
                 # Extract the prediction tensor if it's a tuple
-                if isinstance(output, tuple):
-                    preds = output[0]
-                else:
-                    preds = output
+                preds = output[0] if isinstance(output, tuple) else output
+                
+                # Define the class ID for 'Worker'. 
+                # (Change this to 0 or 1 if your data.yaml defines them in a different order)
+                WORKER_CLASS_ID = 2
                 
                 # Apply NMS. This automatically filters boxes and converts 
                 # coordinates from (cx, cy, w, h) to (x1, y1, x2, y2).
                 # NMS returns a list of tensors (one per batch item). We take [0].
-                output = non_max_suppression(
+                nms_predictions = non_max_suppression(
                     preds, 
-                    conf_thres=0.1,  # You can adjust this detection threshold
-                    iou_thres=0.7    # You can adjust this NMS overlap threshold
-                )[0]
+                    conf_thres=0.1,  
+                    iou_thres=0.7,
+                    classes=[WORKER_CLASS_ID]
+                )
+                
+                # Safeguard against empty batch outputs
+                output = nms_predictions[0] if len(nms_predictions) > 0 else torch.empty((0, 6), device=preds.device)
 
         if output is not None:
             self.cache[tag] = output.cpu().detach()
