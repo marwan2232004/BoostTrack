@@ -109,7 +109,7 @@ def run_mot(video_path: str, frames_path: str, model_path: str, root: str):
             "--dataset", "mot20",
             "--exp_name", "BTPP",
             "--detection_model_path", model_path,
-            "--model_name", "yolov26",
+            "--model_type", "yolov26",
             "--test_dataset"
         ]
 
@@ -119,9 +119,9 @@ def run_mot(video_path: str, frames_path: str, model_path: str, root: str):
             capture_output=True,
             text=True
         )
-        
+
         if result.returncode != 0:
-            print("\n❌ BoostTrack Execution Failed! Traceback below:", file=sys.stderr)
+            print("\n BoostTrack Execution Failed! Traceback below:", file=sys.stderr)
             print(result.stderr, file=sys.stderr)
             raise RuntimeError(f"BoostTrack main.py failed with exit code {result.returncode}")
 
