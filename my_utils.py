@@ -114,7 +114,7 @@ def run_mot(video_path: str, frames_path: str, model_path: str, root: str):
                 "yolov26",
                 "--test_dataset",
             ],
-            check=True,
+            cwd=boosttrack_dir,
         )
 
     finally:
