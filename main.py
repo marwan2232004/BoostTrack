@@ -45,10 +45,10 @@ def get_main_args():
     )
 
     parser.add_argument(
-        "--model_name",
+        "--model_type",
         type=str,
         default="yolox",
-        help="model name",    
+        help="model type",    
     )
 
     parser.add_argument(
