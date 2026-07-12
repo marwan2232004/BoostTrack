@@ -62,7 +62,7 @@ class Detector(torch.nn.Module):
                 
                 # Define the class ID for 'Worker'. 
                 # (Change this to 0 or 1 if your data.yaml defines them in a different order)
-                WORKER_CLASS_ID = 2
+                WORKER_CLASS_ID = 0
                 
                 # Apply NMS. This automatically filters boxes and converts 
                 # coordinates from (cx, cy, w, h) to (x1, y1, x2, y2).
