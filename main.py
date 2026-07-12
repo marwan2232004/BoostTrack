@@ -51,6 +51,20 @@ def get_main_args():
         help="model name",    
     )
 
+    parser.add_argument(
+        "--iou_thres",
+        type=float,
+        default=0.4,
+        help="IoU threshold used for Non-Maximum Suppression (NMS). Higher values keep more overlapping detections; lower values suppress duplicates more aggressively.",
+    )
+
+    parser.add_argument(
+        "--conf_thres",
+        type=float,
+        default=0.65,
+        help="Minimum confidence score required to keep a detection before applying Non-Maximum Suppression (NMS).",
+    )
+
     args = parser.parse_args()
     if args.dataset == "mot17":
         args.result_folder = os.path.join(args.result_folder, "MOT17-val")
@@ -78,9 +92,8 @@ def main():
     BoostTrackPlusPlusSettings.values['use_vt'] = not args.btpp_arg_no_vt
 
     detector_path, size = get_detector_path_and_im_size(args)
-    detector_path = args.detection_model_path
-    print(f"Detector: {detector_path}, size: {size}")
-    det = detector.Detector(args.model_name, detector_path, args.dataset, size)
+    print(f"Detector: {args.detection_model_path}, size: {size}")
+    det = detector.Detector(args, size)
     loader = dataset.get_mot_loader(args.dataset, args.test_dataset, size=size)
 
     tracker = None

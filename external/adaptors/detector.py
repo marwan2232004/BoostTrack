@@ -9,20 +9,22 @@ from ultralytics import YOLO
 class Detector(torch.nn.Module):
     K_MODELS = {"yolox", "yolov26"}
 
-    def __init__(self, model_type, path, dataset, size):
+    def __init__(self, args, size):
         super().__init__()
-        if model_type not in self.K_MODELS:
-            raise RuntimeError(f"{model_type} detector not supported")
+        if args.model_type not in self.K_MODELS:
+            raise RuntimeError(f"{args.model_type} detector not supported")
 
-        self.model_type = model_type
-        self.path = path
-        self.dataset = dataset
+        self.model_type = args.model_type
+        self.path = args.detection_model_path
+        self.dataset = args.dataset
         self.model = None
         self.size = size
+        self.iou_thres = args.iou_thres
+        self.conf_thres = args.conf_thres
 
         os.makedirs("./cache", exist_ok=True)
         self.cache_path = os.path.join(
-            "./cache", f"det_{os.path.basename(path).split('.')[0]}.pkl"
+            "./cache", f"det_{os.path.basename(self.path).split('.')[0]}.pkl"
         )
         self.cache = {}
         if os.path.exists(self.cache_path):
@@ -60,15 +62,15 @@ class Detector(torch.nn.Module):
                 
                 # Define the class ID for 'Worker'. 
                 # (Change this to 0 or 1 if your data.yaml defines them in a different order)
-                WORKER_CLASS_ID = 0
+                WORKER_CLASS_ID = 2
                 
                 # Apply NMS. This automatically filters boxes and converts 
                 # coordinates from (cx, cy, w, h) to (x1, y1, x2, y2).
                 # NMS returns a list of tensors (one per batch item). We take [0].
                 nms_predictions = non_max_suppression(
                     preds, 
-                    conf_thres=0.1,  
-                    iou_thres=0.7,
+                    conf_thres=self.conf_thres,  
+                    iou_thres=self.iou_thres,
                     classes=[WORKER_CLASS_ID]
                 )
                 
