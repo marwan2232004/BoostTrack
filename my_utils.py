@@ -4,6 +4,7 @@ import shutil
 import json
 import random
 import subprocess
+import sys
 
 
 
@@ -94,28 +95,37 @@ def run_mot(video_path: str, frames_path: str, model_path: str, root: str):
         os.chdir(boosttrack_dir)
 
         # Convert MOT20 dataset to COCO format
+        print("Converting MOT20 to COCO...")
         subprocess.run(
             ["python", "data/tools/convert_mot20_to_coco.py"],
             check=True,
         )
 
         # Run BoostTrack
-        subprocess.run(
-            [
-                "python",
-                "main.py",
-                "--dataset",
-                "mot20",
-                "--exp_name",
-                "BTPP",
-                "--detection_model_path",
-                model_path,
-                "--model_name",
-                "yolov26",
-                "--test_dataset",
-            ],
+        print("Running BoostTrack pipeline...")
+        
+        cmd = [
+            "python", "main.py",
+            "--dataset", "mot20",
+            "--exp_name", "BTPP",
+            "--detection_model_path", model_path,
+            "--model_name", "yolov26",
+            "--test_dataset"
+        ]
+
+        result = subprocess.run(
+            cmd,
             cwd=boosttrack_dir,
+            capture_output=True,
+            text=True
         )
+        
+        if result.returncode != 0:
+            print("\n❌ BoostTrack Execution Failed! Traceback below:", file=sys.stderr)
+            print(result.stderr, file=sys.stderr)
+            raise RuntimeError(f"BoostTrack main.py failed with exit code {result.returncode}")
+
+        print("BoostTrack tracking finished successfully!")
 
     finally:
         os.chdir(original_dir)
