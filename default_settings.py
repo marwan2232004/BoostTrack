@@ -24,13 +24,13 @@ def get_detector_path_and_im_size(args) -> Tuple[str, Tuple[int, int]]:
 
 class GeneralSettings:
     values: Dict[str, Union[float, bool, int, str]] = {
-        'max_age': 30,
-        'min_hits': 3,
-        'det_thresh': 0.1,
-        'iou_threshold': 0.1,
+        'max_age': 60,
+        'min_hits': 2,
+        'det_thresh': 0.25,
+        'iou_threshold': 0.3,
         'use_ecc': True,
         'use_embedding': True,
-        'dataset': 'mot20',
+        'dataset': 'workers',
         'test_dataset': False,
         'min_box_area': 10,
         'aspect_ratio_thresh': 1.6
@@ -81,8 +81,8 @@ class BoostTrackSettings:
         'lambda_shape': 0.3,  # 0 to turn off
         'use_dlo_boost': True,  # False to turn off
         'use_duo_boost': True,  # False to turn off
-        'dlo_boost_coef': 0.5,  # Irrelevant if use_dlo_boost == False
-        's_sim_corr': False  # Which shape similarity function should be used (True == corrected version)
+        'dlo_boost_coef': 0.65,  # Irrelevant if use_dlo_boost == False
+        's_sim_corr': True  # Which shape similarity function should be used (True == corrected version)
     }
     dataset_specific_settings: Dict[str, Dict[str, Union[float, bool, int]]] = {
         "mot17": {"dlo_boost_coef": 0.65},
