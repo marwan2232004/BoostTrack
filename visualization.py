@@ -7,21 +7,21 @@ from collections import defaultdict
 # ============================================================
 # Style constants
 # ============================================================
-PANEL_BG_BGR = (245, 245, 247)
+PANEL_BG_BGR = (255, 255, 255)
 PANEL_BORDER_BGR = (50, 50, 55)
 PANEL_TITLE_BG_BGR = (32, 36, 44)
 PANEL_TITLE_FG_BGR = (255, 255, 255)
 PANEL_SUB_FG_BGR = (220, 220, 220)
 PANEL_BODY_FG_BGR = (40, 40, 40)
-PANEL_MUTED_FG_BGR = (95, 95, 95)
+PANEL_MUTED_FG_BGR = (0, 0, 0)
 BAR_TRACK_BGR = (228, 228, 230)
 DIVIDER_BGR = (225, 225, 228)
 BADGE_BG_BGR = (32, 36, 44)
 BADGE_BORDER_BGR = (210, 210, 210)
 BADGE_FG_BGR = (255, 255, 255)
 
-WORKING_COLOR_BGR = (75, 180, 60)  # green
-NOT_WORKING_COLOR_BGR = (70, 70, 230)  # red
+WORKING_COLOR_BGR = (89, 199, 52)     
+NOT_WORKING_COLOR_BGR = (48, 59, 255)
 
 FONT_TITLE = cv2.FONT_HERSHEY_DUPLEX
 FONT_BODY = cv2.FONT_HERSHEY_SIMPLEX
