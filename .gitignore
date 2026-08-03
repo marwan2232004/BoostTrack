@@ -1,0 +1,6 @@
+**/.gradle/
+*.png
+*.csv
+*.txt
+parser.py
+plot.py
